@@ -1,0 +1,37 @@
+#!/usr/bin/env zsh
+
+set -eu
+
+SCRIPT_DIR=${0:a:h}
+
+function compare() {
+    file=$1
+    if [ ! -f reproduction/$file ]; then
+        echo "reproduction/$file does not exist. Skipping.."
+        return
+    fi
+    echo "###################################"
+    echo "Comparing $file"
+    echo "Difference is (expected result is that no difference is displayed):"
+    set +e
+    diff paper/$file reproduction/$file
+    set -e
+    echo "###################################"
+    echo ""
+}
+echo "---------------------------"
+echo "--------- MariaDB ---------"
+echo "---------------------------"
+echo ""
+compare "mariadb.commits.success"
+compare "mariadb.commits.success.wfpatch"
+compare "mariadb.commits.success.wfpatch.perf.original"
+
+echo ""
+echo ""
+echo "-------------------------"
+echo "--------- Redis ---------"
+echo "-------------------------"
+echo ""
+compare "redis.commits.success"
+compare "redis.commits.success.wfpatch"

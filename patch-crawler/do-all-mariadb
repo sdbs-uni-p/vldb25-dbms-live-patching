@@ -1,0 +1,33 @@
+#!/usr/bin/env zsh
+set -e
+
+SCRIPT_DIR=${0:a:h}
+RESULT_DIR=${SCRIPT_DIR}/../commits/reproduction
+
+# This script just wraps all commands of the README.md file
+
+# 1.
+cd ${SCRIPT_DIR}/crawl-mariadb
+./crawl
+
+cd ${SCRIPT_DIR}/analysis
+./all ../crawl-mariadb/output/patches
+cp commits.success ${RESULT_DIR}/mariadb.commits.success
+
+# 2.
+cd ${SCRIPT_DIR}/create-patched-patch-repository
+./mariadb ${RESULT_DIR}/mariadb.commits.success
+
+cd mariadb-server
+git tag -l | grep wfpatch.patch- > ${RESULT_DIR}/mariadb.commits.success.wfpatch
+cat ${RESULT_DIR}/mariadb.commits.success.wfpatch | sed 's/^wfpatch\.patch-//' > ${RESULT_DIR}/mariadb.commits.success.wfpatch.original
+
+# 3.
+cd ${SCRIPT_DIR}/mariadb-perf-analysis
+mkdir build-dir
+rsync -av ../create-patched-patch-repository/mariadb-server/ build-dir/mariadb-wfpatch-commits
+
+./check-commit-list ${RESULT_DIR}/mariadb.commits.success.wfpatch.original
+
+cp sibling.commits ${RESULT_DIR}/mariadb.commits.success.wfpatch.perf.original
+
