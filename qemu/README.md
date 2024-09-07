@@ -14,7 +14,7 @@ The following commands get you started using the VM:
 
 ```
 # 1. Clone Repository
-git clone https://github.com/sdbs-uni-p/vldb-dbms-live-patching.git dbms-live-patching
+git clone https://github.com/sdbs-uni-p/vldb25-dbms-live-patching.git dbms-live-patching
 
 # 2. Go into the qemu directory
 cd dbms-live-patching/qemu
