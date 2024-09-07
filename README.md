@@ -131,3 +131,6 @@ Please refer to the [wfpatch-extension](wfpatch-extension) directory for a detai
     - Installed Docker.
     - Added tmpfs mapping for `/tmp`
 
+### v2 -> v3
+- Updated link to repository in QEMU VM.
+
