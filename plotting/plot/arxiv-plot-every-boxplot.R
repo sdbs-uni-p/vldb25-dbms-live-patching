@@ -141,5 +141,5 @@ ggplot.save(plot + plot.theme.paper() +
                     panel.spacing.x = unit(1.2, "mm")
                     #axis.text.x = element_text(angle = 20, hjust = 1)
               ) +
-              force_panelsizes(cols = unit(c(0.6, 0.6, 0.6, 0.6, 0.6, 2.1, 2.1, 2.1, 2.1, 2.1), "cm"))
+              force_panelsizes(cols = unit(c(0.54, 0.54, 0.54, 0.54, 0.54, 2.04, 2.04, 2.04, 2.04, 2.04), "cm"))
             , paste("arxiv-Synchronization-Time-Boxplot",sep="-"), width=16, height = 8, use.grid=FALSE)
