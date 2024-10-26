@@ -130,7 +130,7 @@ plot <- plot +
                shape = experiment
              ),
              size=0.18) +
-  scale_color_manual( name="Method:", values=c("blue", "#007300", "#00e000")) +
+  scale_color_manual( name="Method:", values=c("blue", "#654321", "#3eb489")) +
   scale_shape_manual(name="Method:", values=c(16, 16, 16))
 
 #plot <- plot +
