@@ -63,7 +63,7 @@ plot <- plot +
 
 
 plot <- plot + plot.theme.paper() +
-  guides(color=guide_legend(title="'SELECT 0;' Result:", order=1),
+  guides(color=guide_legend(title="Version:", order=1),
          #shape=guide_legend(title="Worker ID:", order=2)
          shape="none"
          ) +
