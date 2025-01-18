@@ -174,12 +174,6 @@ chmod +x cpupower
 curl https://pyenv.run | bash
 # ...
 # Update .bashrc and .profile of user repro based on output of pyenv installation.
-
-# Install Python 3.10.
-pyenv install 3.10.1
-pyenv global 3.10.1
-pip install pipenv
-
 # Please note: Different to the output of pyenv, I added the following commands to .profile and .bashrc (slighlty modified in comparison to the pyenv output):
 # .profile (or .zprofile):
 export PYENV_ROOT="$HOME/.pyenv"
@@ -188,6 +182,14 @@ eval "$(pyenv init --path)"
 
 # .bashrc (or .zshrc)
 eval "$(pyenv init -)"
+
+# --------------------
+
+# Install Python 3.10.
+pyenv install 3.10.1
+pyenv global 3.10.1
+pip install pipenv
+
 ```
 
 #### Linux Kernel Compilation
