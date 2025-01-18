@@ -12,7 +12,15 @@ else
     exit 1
 fi
 
-exit 1
+if ! git config --get user.name > /dev/null; then 
+    echo "git config user.name must be set"
+    exit 1
+fi
+if ! git config --get user.email > /dev/null; then 
+    echo "git config user.email must be set"
+    exit 1
+fi
+
 cd ${SCRIPT_DIR}/kpatch
 ./setup
 
