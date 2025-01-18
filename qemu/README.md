@@ -5,6 +5,7 @@ We provide a QEMU VM which is equipped (1) with the MMView Linux kernel and (2) 
 > **NOTE: Our experiments were conducted directly on a prepared server, avoiding the overhead of virtualization. When replicating the results in the VM, we observed a 25% performance degradation compared to the direct server execution. This degradation introduces significant system noise, obscuring some measured effects. Consequently, we recommend conducting the experiments directly on a prepared server for more accurate results. However, we provide the VM for a quick start and ease of reproducibility.**
 
 You can reproduce our results either by using our pre-defined [QEMU VM](#qemu-vm) or by preparing a [new server](#prepare-own-server) to execute experiments directly on it.
+Once a system is prepared, please see the [Preparation](#preparation) section below on how to prepare the reproduction package.
 
 ## QEMU VM
 
@@ -49,15 +50,6 @@ uname -a
 - root:root
 
 > **_NOTE:_** In order to enable easy reproduction, security best practices were neglected. Both users are in the `sudo` group without the need for a password (`NOPASSWD` in `/etc/sudoers`).
-
-### Preparation
-
-A common set of utility tools and scripts is used throughout the entire reproduction pipeline. These tools need to be prepared before executing any step:
-
-```
-cd ~/dbms-live-patching/utils
-./setup
-```
 
 ### Switching Kernel
 
@@ -238,3 +230,13 @@ sudo make install
 ```
 
 Once the system is prepared, clone the git repository and setup the utility tools (see [Preparation](#preparation) step).
+
+## Preparation
+
+A common set of utility tools and scripts is used throughout the entire reproduction pipeline. These tools need to be prepared before executing any step:
+
+```
+cd ~/dbms-live-patching/utils
+./setup
+```
+
