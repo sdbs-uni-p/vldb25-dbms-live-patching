@@ -12,12 +12,12 @@ else
     exit 1
 fi
 
-if ! git config --get user.name > /dev/null; then 
-    echo "git config user.name must be set"
+if ! git config --global --get user.name > /dev/null; then 
+    echo "git config --global user.name must be set"
     exit 1
 fi
-if ! git config --get user.email > /dev/null; then 
-    echo "git config user.email must be set"
+if ! git config --global --get user.email > /dev/null; then 
+    echo "git config --global user.email must be set"
     exit 1
 fi
 
