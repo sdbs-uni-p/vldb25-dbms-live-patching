@@ -9,6 +9,8 @@ SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 PAPER_DIRECTORY = os.path.join(SCRIPT_DIR, "paper")
 REPRODUCTION_DIRECTORY = os.path.join(SCRIPT_DIR, "reproduction")
 
+st.write("The browser may have problems with rendering all plots at once. Therfore, only one experiment at a time can be loaded and compared.")
+
 height = st.number_input(label="PDF Height [px]", min_value=0, value=200)
 
 def get_files(directory: str) -> List[str]:
@@ -39,11 +41,14 @@ else:
     left, right = st.columns([1, 1])
     left.write("# Paper plots")
     right.write("# Reproduction plots")
-    for f in sorted(common_plots):
+    for idx, f in enumerate(sorted(common_plots)):
+        st.write("---")
         st.write(f)
-        left, right = st.columns([1, 1])
-        with left:
-            display_pdf(os.path.join(PAPER_DIRECTORY, f))
-        with right:
-            display_pdf(os.path.join(REPRODUCTION_DIRECTORY, f))
+        result = st.button("Load Plot", key = idx)
+        if result:
+            left, right = st.columns([1, 1])
+            with left:
+                display_pdf(os.path.join(PAPER_DIRECTORY, f))
+            with right:
+                display_pdf(os.path.join(REPRODUCTION_DIRECTORY, f))
 
