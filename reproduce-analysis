@@ -1,0 +1,14 @@
+#!/usr/bin/env zsh
+set -e
+
+SCRIPT_DIR=${0:a:h}
+
+cd ${SCRIPT_DIR}/transformation
+./setup
+cd ${SCRIPT_DIR}/transformation
+./transform-all
+
+cd ${SCRIPT_DIR}/plotting/plot
+./setup
+./do-all
+

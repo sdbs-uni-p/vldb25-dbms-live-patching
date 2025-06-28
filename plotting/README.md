@@ -1,13 +1,12 @@
 # Plotting - Result Analysis
 
-These scripts are responsible for evaluating the benchmark data. The results will either be shown in the terminal or the plots will be stored in the `~/dbms-live-patching/plot/reproduction` directory.
+These scripts are responsible for evaluating the benchmark data. The results will either be shown in the terminal or the plots will be stored in the `~/dbms-live-patching/plot/reproduction` directory. Please see the README of the [plots](../plots) directory for the file mapping, which file corresponds to which figure in the paper.
 
 ## Linux Kernel
 
 The following steps should be executed using the ***unmodified*** Linux kernel.
 
 ```
-# Inside the VM:
 cd ~
 ./kernel-regular
 sudo reboot
@@ -15,16 +14,7 @@ sudo reboot
 
 ## Plot Directory
 
-All plots will be stored in `~/dbms-live-patching/plots/reproduction`. The directory `~/dbms-live-patching/plots/paper` contains all plots from the paper, including additional ones referenced or mentioned therein. To compare the results of your reproduction pipeline with our plots, you can use the scripts in the `~/dbms-live-patching/plots` directory. To start a web-server for easy comparison of charts, use the following commands:
-
-```bash
-cd ~/dbms-live-patching/plots
-
-# Starts a web-server (streamlit) for easy chart comparison
-./run
-```
-
-This script starts a web-server (you may need to expose the port if running inside a VM) that allows you to compare our plots with those from your reproduction pipeline side-by-side.
+All plots will be stored in `~/dbms-live-patching/plots/reproduction`. The directory `~/dbms-live-patching/plots/paper` contains all plots from the paper, including additional ones referenced or mentioned therein. Please see the README of the [plots](../plots) directory for the file mapping, which file corresponds to which figure in the paper.
 
 ## All Plots (Figure 1 and 5 - 10)
 
@@ -164,7 +154,7 @@ Total Patchings during all Experiments: 2900
 
 - The path contains the respective version.
 - Lines `Total #Recorded Latencies` and `Maximum #Recorded Latencies` can be ignored.
-- `Total 'Deadlocks':` should be `0` and `Total Patchings during all Experiments:` should be `2900`. Therefore, no deadlock occurred, and all patches were successfully applied.
+- `Total 'Deadlocks':` should be `0` and `Total Patchings during all Experiments:` should be `2900`. This means that no deadlock occurred, and all patches were successfully applied. When `Total 'Deadlocks'` shows a value of `100`, this means that every patch request caused a deadlock.
 
 [2] Florian Rommel, Christian Dietrich, Daniel Friesel, Marcel Köppen, ChristophBorchert, Michael Müller, Olaf Spinczyk, and Daniel Lohmann. 2020. *From Global to Local Quiescence: Wait-Free Code Patching of Multi-Threaded Processes*. In Proc. OSDI. 651–666.
 

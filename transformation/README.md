@@ -12,7 +12,6 @@ Most of our experiment data is transformed into a DuckDB database to perform bet
 Data transformation must be executed using the ***unmodified*** Linux kernel.
 
 ```
-# Inside the VM:
 cd ~
 ./kernel-regular
 sudo reboot

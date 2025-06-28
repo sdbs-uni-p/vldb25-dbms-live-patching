@@ -21,22 +21,17 @@ To safe disk space, we do not save any intermediate data. Otherwise several TB o
 
 ## Reproduction Results
 
-You can either crawl live patches using the VM, executing it on the prepared server directly, or using the prepared Docker container. 
+You can crawl live patches using one of the following environments: the VM, a prepared server, or a [Docker container](container). However, we recommend using the prepared server or the VM, as using `perf` inside a Docker container can lead to certain difficulties.
 
-### VM
+### QEMU VM
 
-We noticed a crash of the VM when analyzing the commits for MariaDB during the phase of using `perf` to trace the function calls (step 3). We could not find the cause of this crash (no error message, sufficient disk space, free main memory, etc.), but restarting the script from the point where it failed resolved the issue, and the script ran successfully.
-
-### Docker Container in the VM
-
-See the [Docker Container](#docker-container) section for instructions.
+We noticed a crash of the QEMU VM when analyzing the commits for MariaDB during the phase of using `perf` to trace the function calls (step 3). We could not find the cause of this crash (no error message, sufficient disk space, free main memory, etc.), but restarting the script from the point where it failed resolved the issue, and the script ran successfully.
 
 ## Linux Kernel
 
 Patch crawling should be done using the ***unmodified*** Linux kernel.
 
 ```
-# Inside the VM:
 cd ~
 ./kernel-regular
 sudo reboot
@@ -63,15 +58,17 @@ cd ~/dbms-live-patching/patch-crawler
 ./do-all-mariadb
 ```
 
+### Commits
+
+The directory `~/dbms-live-patching/commits/paper/` contains the commit lists that we have crawled. Please note, the commits in `mariadb.commits.success.wfpatch.perf.paper` were selected manually from `mariadb.commits.success.wfpatch.perf.original` by checking each commit individually.
+
+### 0. Preparation
+
 For the detailed steps, we make use of the following variable to specify the directory in which the list of live patchable commits is stored:
 
 ```
 export RESULT_DIR=~/dbms-live-patching/commits/reproduction
 ```
-
-### Commits
-
-The directory `~/dbms-live-patching/commits/paper/` contains the commit lists that we have crawled. Please note, the commits in `mariadb.commits.success.wfpatch.perf.paper` were selected manually from `mariadb.commits.success.wfpatch.perf.original` by checking each commit individually.
 
 ### 1. Find commits patchable via Kpatch
 
@@ -283,15 +280,13 @@ The `diff` script compares the commit lists we originally crawled with the newly
 
 ## Crawl Redis Commit History
 
-Crawling the Redis Commit History for patchable commits is used similar to MariaDB, please see steps 1, 2 and 4 for details (the `crawl-redis` directory is used for Redis).
+Crawling the Redis commit history for patchable commits follows the same procedure as for MariaDB. Since the steps are identical, they are not duplicated here. Please refer to steps 1, 2, and 4 of the MariaDB instructions for details, but use the `crawl-redis` directory instead. Additionally, a script is provided that encompasses all the necessary commands for Redis:
 
----
-
----
-
-## Docker Container
-
-The Docker container is designed to crawl patches independently of the VM. However, setting up the container may require some adjustments based on the host system's software, such as the possible unavailability of `perf` inside the Docker container. For detailed information and setup instructions, please refer to the [container](container) directory.
+```
+cd ~/dbms-live-patching/patch-crawler
+# Executes all commands of this README for Redis
+./do-all-redis
+```
 
 ---
 

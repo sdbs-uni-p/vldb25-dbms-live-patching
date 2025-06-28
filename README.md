@@ -22,19 +22,116 @@ The entire reproduction pipeline takes about 160 hours.
 
 ## Reproduction Pipeline
 
-The following steps provide a high-level overview of how to reproduce this research. Please see the respective sub-directory for in-depth details about the commands to execute:
+The following steps can be used to reproduce this research. Each subdirectory, however, contains detailed instructions, including all executed commands, how to control the scripts, and other implementation-specific information.
 
-0. **Initial**: Prepare the system (directory [qemu](qemu)).
-1. **Crawl Development History**: Identify live patchable source code changes (directory [patch-crawler](patch-crawler)).
-2. **Perform Experiments**: Conduct the experiments (directory [experiments](experiments)).
-3. **Transform Experiment Data**: Convert experiment data into a DuckDB database (directory [transformation](transformation)).
-4. **Analyze Results and Plot Charts**: Analyze the results and generate plots (directory [plotting](plotting)).
+0. **Initial**: Prepare the system.
 
-> **_NOTE:_** The README is designed for executing all commands within the QEMU VM. However, these commands can be easily adapted for use on your own prepared system.
+   This reproduction package can either be executed on a prepared server (highly recommended), or in a prepared QEMU VM. Please see the README of the [qemu](qemu) directory for details. 
 
-The experiments in step 2 must be performed on a system using the MMView Linux kernel (https://github.com/luhsra/linux-mmview; git hash `ecfcf9142ada6047b07643e9fa2afe439b69a5f0`). The MMView Linux kernel is an improved version of the original WfPatch Linux kernel (https://github.com/luhsra/linux-wfpatch). For our research, we used the newer MMView Linux kernel. Please note that the terms "MMView Linux kernel" and "WfPatch Linux kernel" can be used interchangeably.
+1. **Crawl Development History**: Identify live patchable source code changes (see directory [patch-crawler](patch-crawler) for implementation details).
 
-We provide the results from our experiments, so step 1 or steps 2 and 3 can be skipped. This means experiments can be performed directly, or plots can be generated immediately (but you may have to move/rename some directories to match the expected names/locations).
+   Patch crawling must be done using the ***unmodified*** Linux kernel.
+
+   ```
+   cd ~
+   ./kernel-regular
+   sudo reboot
+   ```
+
+   Perform the experiment:
+
+   ```
+   cd ~/dbms-live-patching
+   ./reproduce-crawling
+   ```
+
+   Results are stored in the `~/dbms-live-patching/commits` directory. Please see the [commits](commits) directory for the evaluation of the results (Table 1 and the *patches* used in Figure 10 of the paper).
+
+2. **Perform Experiments**: Conduct the experiments (see directory [experiments](experiments) for implementation details). 
+
+   > If you run the experiments on hardware different from ours (see the [Hardware](#hardware) section), please read the implementation details carefully. Some aspects of the experiments are system-specific, for example, CPU pinning or preset queries-per-second (QPS) values, which may need to be adjusted to match your setup.
+
+   The experiments must be executed using the ***MMView*** Linux kernel.
+
+   ```
+   cd ~
+   ./kernel-mmview
+   sudo reboot
+   ```
+
+   Perform the experiment:
+
+   ```
+   cd ~/dbms-live-patching
+   ./reproduce-experiments
+   ```
+
+   The results (the raw experiment data) will be stored in the respective directories in the [data](data) directory. The experiment data is transformed into DuckDB database files and analyzed in the last step (see next step).
+
+3. **Transform Experiment Data & Analyze Results**: Convert experiment data into a DuckDB database (see directory [transformation](transformation) for implementation details) and analyze the results and generate plots (directory [plotting](plotting) for implementation details).
+
+   Data transformation and analysis must be done using the ***unmodified*** Linux kernel.
+
+   ```
+   cd ~
+   ./kernel-regular
+   sudo reboot
+   ```
+
+   Transform the experiment data and analyze the results:
+
+   ```
+   cd ~/dbms-live-patching
+   ./reproduce-experiments
+   ```
+
+   The output data corresponds to the following statements in the paper:
+
+   - Figure 1 and 5 - 10:
+
+     All *plots* are stored in the [plots/reproduction](plots/reproduction) directory. Please see the README of the [plots](plots) directory for the file mapping, which file corresponds to which figure in the paper.
+
+   - Table 2:
+
+     The data of the table can be evaluated as follows:
+
+     ```
+     cd ~/dbms-live-patching/plotting/latency-breakdown
+     ./new-as
+     ./patch-application
+     ./reach-q
+     ./switch-as
+     ```
+
+   - Section "6.1.1 OLTP Workloads" :
+
+     > While we did do not encounter deadlocks in any run, this is not the case for the earlier implementation [49] by Rommelet al. for the MariaDB thread pool policy, which does not employthe priority-based quiescence proposed by us. When we replicate our experiment using the YCSB and TPC-C benchmark with their implementation, every patch request inevitably causes a deadlock (in 100 out of 100 runs).
+
+     The experiment can be evaluated as follows:
+
+     ```
+     cd ~/dbms-live-patching/plotting/comparison
+     ./evaluate-comparison
+     ```
+
+     The version `wfpatch.patch-18502f99eb24f37d11e2431a89fd041cbdaea621` is our implementation, while `mariadb-wf-10.3.15` is the version of Rommel et al. [2]. 
+
+     Example output:
+
+     ```
+     /home/repro/dbms-live-patching/plotting/comparison/../../data/threadpool-comparison/result-ycsb/wfpatch.patch-18502f99eb24f37d11e2431a89fd041cbdaea621-ycsb
+     Total Experiments: 100
+     Total 'Deadlocks': 0
+     Total #Recorded Latencies: 164335571
+     Maximum #Recorded Latencies: 1685122
+     Total Patchings during all Experiments: 2900
+     ```
+
+     - The path contains the respective version.
+     - Lines `Total #Recorded Latencies` and `Maximum #Recorded Latencies` can be ignored.
+     - `Total 'Deadlocks':` should be `0` and `Total Patchings during all Experiments:` should be `2900`. This means that no deadlock occurred, and all patches were successfully applied. When `Total 'Deadlocks'` shows a value of `100`, this means that every patch request caused a deadlock.
+
+We also provide the results from our experiments. This means experiments can be performed directly, or plots can be generated immediately (but you may have to move/rename some directories to match the expected names/locations). See the [original data](#original-data) section for more details.
 
 ## Hardware
 

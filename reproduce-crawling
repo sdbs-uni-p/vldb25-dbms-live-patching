@@ -1,0 +1,11 @@
+#!/usr/bin/env zsh
+set -e
+
+SCRIPT_DIR=${0:a:h}
+
+cd ${SCRIPT_DIR}/patch-crawler
+./do-all-mariadb
+
+cd ${SCRIPT_DIR}/patch-crawler
+./do-all-redis
+

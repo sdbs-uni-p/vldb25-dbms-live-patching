@@ -12,7 +12,6 @@ This directory encompasses all the experiments performed. The commit lists used 
 The experiments must be executed using the ***MMView*** Linux kernel.
 
 ```
-# Inside the VM:
 cd ~
 ./kernel-mmview
 sudo reboot
