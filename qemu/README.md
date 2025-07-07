@@ -183,13 +183,6 @@ git clone https://github.com/sdbs-uni-p/vldb25-dbms-live-patching.git dbms-live-
 # 2. Setup utility tools
 cd ~/dbms-live-patching/utils
 ./setup
-
-# 3. The following command can be used to check the currently used kernel:
-uname -a
-# Unmodified Linux kernel:
-# Linux debian 5.15.0-0.bpo.3-amd64 #1 SMP Debian 5.15.15-2~bpo11+1 (2022-02-03) x86_64 GNU/Linux
-# MMView Linux kernel:
-# Linux debian 5.15.0-mmview-min #2 SMP Sun May 19 22:47:40 CEST 2024 x86_64 GNU/Linux
 ```
 
 Now, everything is prepared and the reproduction package can be executed. See the initial [README](..) for more details.
@@ -226,13 +219,6 @@ ssh repro@127.0.0.1 -p 2222
 # 7. Setup utility tools
 cd ~/dbms-live-patching/utils
 ./setup
-
-# 8. The following command can be used to check the currently used kernel:
-uname -a
-# Unmodified Linux kernel:
-# Linux debian 5.15.0-0.bpo.3-amd64 #1 SMP Debian 5.15.15-2~bpo11+1 (2022-02-03) x86_64 GNU/Linux
-# MMView Linux kernel:
-# Linux debian 5.15.0-mmview-min #2 SMP Sun May 19 22:47:40 CEST 2024 x86_64 GNU/Linux
 ```
 
 Now, everything is prepared and the reproduction package can be executed. See the initial [README](..) for more details.
