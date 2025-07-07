@@ -26,9 +26,14 @@ The following steps can be used to reproduce this research. Each subdirectory, h
 
 0. **Initial**: Prepare the system.
 
-   This reproduction package can either be executed on a prepared server (highly recommended), or in a prepared QEMU VM. Please see the README of the [qemu](qemu) directory for details. 
+    This reproduction package can either be executed on a prepared server (highly recommended), or in a prepared QEMU VM. Please see the README of the [qemu](qemu) directory for details. 
 
 1. **Crawl Development History**: Identify live patchable source code changes (see directory [patch-crawler](patch-crawler) for implementation details).
+
+   > ***NOTE:*** Patch generation is highly system specific. We have noticed slight differences when the following components are deviated from:
+   >
+   > - OS: Debian Bullseye (11)
+   > - GCC version: 10.2.
 
    Patch crawling must be done using the ***unmodified*** Linux kernel.
 
@@ -45,7 +50,7 @@ The following steps can be used to reproduce this research. Each subdirectory, h
    ./reproduce-crawling
    ```
 
-   Results are stored in the `~/dbms-live-patching/commits` directory. Please see the [commits](commits) directory for the evaluation of the results (Table 1 and the *patches* used in Figure 10 of the paper).
+   Results are stored in the `~/dbms-live-patching/commits/reproduction` directory. Please see the [commits](commits) directory for the evaluation of the results (Table 1 and the *patches* used in Figure 10 of the paper).
 
 2. **Perform Experiments**: Conduct the experiments (see directory [experiments](experiments) for implementation details). 
 
@@ -66,7 +71,7 @@ The following steps can be used to reproduce this research. Each subdirectory, h
    ./reproduce-experiments
    ```
 
-   The results (the raw experiment data) will be stored in the respective directories in the [data](data) directory. The experiment data is transformed into DuckDB database files and analyzed in the last step (see next step).
+   The results (the raw experiment data) will be stored in the respective directories in the [data](data) directory. In the final step, the experiment data will be transformed into DuckDB database files and analyzed (see next step below).
 
 3. **Transform Experiment Data & Analyze Results**: Convert experiment data into a DuckDB database (see directory [transformation](transformation) for implementation details) and analyze the results and generate plots (directory [plotting](plotting) for implementation details).
 
@@ -82,7 +87,7 @@ The following steps can be used to reproduce this research. Each subdirectory, h
 
    ```
    cd ~/dbms-live-patching
-   ./reproduce-experiments
+   ./reproduce-analysis
    ```
 
    The output data corresponds to the following statements in the paper:
